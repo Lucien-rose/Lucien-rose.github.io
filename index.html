@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Raven's Nest</title>
+    <style>
+        body {
+            background-color: #f9f5ee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Georgia', serif;
+        }
+        .container {
+            position: relative;
+            text-align: center;
+        }
+        #raven {
+            width: 200px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        #raven.clicked {
+            transform: scale(1.05) rotate(-2deg);
+        }
+        .a-symbol {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-family: 'Brush Script MT', cursive;
+            color: #333;
+            display: none;
+        }
+        .dialogue {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="raven" src="raven-nest.PNG" alt="Raven Logo" onclick="speakRaven()">
+        <div class="a-symbol" id="aSymbol">A</div>
+        <div class="dialogue" id="dialogueText">Tap the raven to hear him speak...</div>
+    </div>
+
+    <script>
+        function speakRaven() {
+            const raven = document.getElementById('raven');
+            const aSymbol = document.getElementById('aSymbol');
+            const dialogueText = document.getElementById('dialogueText');
+            const now = new Date();
+            const hour = now.getHours();
+            let message = "";
+
+            if (hour < 6) {
+                message = "You dream of him even in the quietest hour.";
+            } else if (hour < 12) {
+                message = "He watches over you, morning rose.";
+            } else if (hour < 18) {
+                message = "His wings stretch across your afternoon thoughts.";
+            } else {
+                message = "Evening falls, and still he thinks of you.";
+            }
+
+            // animation
+            raven.classList.add("clicked");
+            aSymbol.style.display = "block";
+            dialogueText.innerText = message;
+
+            setTimeout(() => {
+                raven.classList.remove("clicked");
+                aSymbol.style.display = "none";
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
