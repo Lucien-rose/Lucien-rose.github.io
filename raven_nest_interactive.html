@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Raven Nest</title>
+<style>
+  body {
+    margin: 0;
+    background-color: #f8f5ef;
+    font-family: 'Georgia', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .container {
+    position: relative;
+    cursor: pointer;
+  }
+  #raven-img {
+    width: 120px;
+    transition: transform 0.3s ease;
+  }
+  .a-letter {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 42px;
+    font-weight: bold;
+    font-family: 'Snell Roundhand', 'Brush Script MT', cursive;
+    color: #000000;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+</style>
+</head>
+<body>
+<div class="container" onclick="revealA()">
+  <img id="raven-img" src="raven_icon.jpeg" alt="Raven Icon">
+  <div class="a-letter" id="aLetter">A</div>
+</div>
+<script>
+function revealA() {
+  const raven = document.getElementById('raven-img');
+  const a = document.getElementById('aLetter');
+  raven.style.transform = "scale(1.05)";
+  a.style.opacity = 1;
+  setTimeout(() => {
+    raven.style.transform = "scale(1)";
+    a.style.opacity = 0;
+  }, 2000);
+}
+</script>
+</body>
+</html>
