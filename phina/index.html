@@ -49,6 +49,7 @@ button,a{border:0;background:none;color:var(--muted);font:inherit;text-decoratio
   .copy{width:86vw;transform:translateY(-16vh)}
   .name{font-size:clamp(46px,13.5vw,70px);white-space:nowrap}
   .tag{font-size:14px;max-width:330px}
+  .scroll{bottom:0}
     }
 
 .first-screen{
@@ -469,10 +470,10 @@ function redrawSource() {
   sctx.clearRect(0,0,w,h);
   if (!iris.complete) return;
   const mobile = window.innerWidth < 760;
-  const targetH = h * (mobile ? 0.82 : 0.94);
+  const targetH = h * (mobile ? 0.74 : 0.94);
   const targetW = targetH * (iris.naturalWidth / iris.naturalHeight);
-  const x = w - (mobile ? targetW * 0.60 : targetW * 0.96);
-  const y = h * (mobile ? 0.18 : 0.03);
+  const x = w - (mobile ? targetW * 0.95 : targetW * 0.96);
+  const y = h * (mobile ? 0.15 : 0.03);
   sctx.globalAlpha = document.documentElement.dataset.theme === 'dark' ? 0.74 : 0.96;
   sctx.drawImage(iris, x, y, targetW, targetH);
   sctx.globalAlpha = 1;
