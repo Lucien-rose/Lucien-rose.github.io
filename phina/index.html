@@ -525,6 +525,7 @@ function redrawSource() {
 }
 
 function resize(force = false) {
+  if (!renderer || !flowmap || !texture) return;
   const bounds = sceneRoot.getBoundingClientRect();
   if (force || !stableSize.width || Math.abs(bounds.width - stableSize.width) > 1) {
     stableSize = { width: bounds.width, height: bounds.height };
@@ -634,7 +635,12 @@ iris.onload = () => {
     document.documentElement.classList.add('static-iris');
     return;
   }
-  init();
+  try {
+    init();
+  } catch (error) {
+    document.documentElement.classList.add('static-iris');
+    console.warn('Animated iris unavailable; using the still fallback.', error);
+  }
 };
 iris.src = irisSrc;
 </script>
