@@ -345,12 +345,7 @@ html[data-theme="dark"] .project-visual{
   background:#f5f8fd;
 }
 .blueprint-visual img{
-  object-fit:cover;
-}
-.blueprint-visual svg{
-  width:100%;
-  height:100%;
-  display:block;
+  object-fit:contain;
 }
 .project-card-reverse .project-link{
   margin-top:42px;
@@ -505,155 +500,11 @@ html[data-theme="dark"] .blueprint-visual{
         </div>
       </div>
 
-      <div class="project-visual blueprint-visual" role="img" aria-label="Product anatomy blueprint showing user need, constraints, information architecture, flow, solution and validation">
-        <svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="paperWash" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#fbfcff"/>
-              <stop offset=".48" stop-color="#f4f7fc"/>
-              <stop offset="1" stop-color="#eef3fa"/>
-            </linearGradient>
-            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#456bc5" flood-opacity=".09"/>
-            </filter>
-            <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-              <path d="M0 0 L10 5 L0 10 Z" fill="#456bc5"/>
-            </marker>
-            <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-              <path d="M0 0 L10 5 L0 10 Z" fill="#b45b67"/>
-            </marker>
-            <pattern id="microGrid" width="42" height="42" patternUnits="userSpaceOnUse">
-              <path d="M42 0H0V42" fill="none" stroke="#7f96bd" stroke-width="1" opacity=".11"/>
-            </pattern>
-          </defs>
-
-          <rect width="1600" height="900" fill="url(#paperWash)"/>
-          <rect width="1600" height="900" fill="url(#microGrid)"/>
-
-          <g fill="none" stroke="#6f87b2" stroke-width="1.4" opacity=".42">
-            <path d="M50 90H1540M50 795H1540"/>
-            <path d="M110 55V835M470 55V835M860 55V835M1260 55V835"/>
-            <path d="M79 120h18m-9-9v18M1512 172h18m-9-9v18M1410 725h18m-9-9v18"/>
-          </g>
-
-          <g font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" fill="#506b9d">
-            <g transform="translate(72 72)">
-              <text x="0" y="0" font-family="Iowan Old Style, Baskerville, serif" font-size="30">01</text>
-              <text x="0" y="38" font-size="17" letter-spacing="4">USER NEED</text>
-              <text x="0" y="78" font-size="12" letter-spacing="1.5" opacity=".72">Observation</text>
-              <text x="0" y="100" font-size="12" letter-spacing="1.5" opacity=".72">User Research</text>
-              <text x="0" y="122" font-size="12" letter-spacing="1.5" opacity=".72">Problem Statement</text>
-            </g>
-
-            <g transform="translate(82 310)">
-              <text x="0" y="0" font-family="Iowan Old Style, Baskerville, serif" font-size="30">02</text>
-              <text x="0" y="38" font-size="17" letter-spacing="4">CONSTRAINT</text>
-              <text x="0" y="78" font-size="12" letter-spacing="1.5" opacity=".72">Technical</text>
-              <text x="0" y="100" font-size="12" letter-spacing="1.5" opacity=".72">Resource</text>
-              <text x="0" y="122" font-size="12" letter-spacing="1.5" opacity=".72">Timeline</text>
-              <text x="0" y="144" font-size="12" letter-spacing="1.5" opacity=".72">Trade-off</text>
-            </g>
-
-            <g transform="translate(520 118)">
-              <text x="0" y="0" font-family="Iowan Old Style, Baskerville, serif" font-size="30">03</text>
-              <text x="0" y="38" font-size="17" letter-spacing="3">INFORMATION</text>
-              <text x="0" y="62" font-size="17" letter-spacing="3">ARCHITECTURE</text>
-              <text x="0" y="98" font-size="12" letter-spacing="1.5" opacity=".72">Structure · Content · Relationship</text>
-            </g>
-
-            <g transform="translate(918 150)">
-              <text x="0" y="0" font-family="Iowan Old Style, Baskerville, serif" font-size="30">04</text>
-              <text x="0" y="38" font-size="17" letter-spacing="4">FLOW &amp; INTERACTION</text>
-              <text x="0" y="76" font-size="12" letter-spacing="1.5" opacity=".72">User Flow · Key Scenarios · Interaction Design</text>
-            </g>
-
-            <g transform="translate(1170 330)">
-              <text x="0" y="0" font-family="Iowan Old Style, Baskerville, serif" font-size="30">05</text>
-              <text x="0" y="38" font-size="17" letter-spacing="4">SOLUTION</text>
-              <text x="0" y="76" font-size="12" letter-spacing="1.5" opacity=".72">Key Features</text>
-              <text x="0" y="98" font-size="12" letter-spacing="1.5" opacity=".72">MVP Scope</text>
-              <text x="0" y="120" font-size="12" letter-spacing="1.5" opacity=".72">Design Rationale</text>
-            </g>
-
-            <g transform="translate(1370 616)">
-              <text x="0" y="0" font-family="Iowan Old Style, Baskerville, serif" font-size="30">06</text>
-              <text x="0" y="38" font-size="17" letter-spacing="4">VALIDATION</text>
-              <text x="0" y="76" font-size="12" letter-spacing="1.5" opacity=".72">User Testing</text>
-              <text x="0" y="98" font-size="12" letter-spacing="1.5" opacity=".72">Metrics</text>
-              <text x="0" y="120" font-size="12" letter-spacing="1.5" opacity=".72">Iteration</text>
-            </g>
-          </g>
-
-          <g stroke="#7e94ba" fill="#f9fbfe" opacity=".92" filter="url(#softShadow)">
-            <rect x="230" y="110" width="210" height="280" rx="4"/>
-            <rect x="270" y="145" width="210" height="280" rx="4" opacity=".78"/>
-            <rect x="475" y="260" width="255" height="230" rx="4" opacity=".78"/>
-            <rect x="535" y="310" width="255" height="230" rx="4" opacity=".93"/>
-            <rect x="820" y="340" width="270" height="290" rx="4" opacity=".84"/>
-            <rect x="875" y="385" width="300" height="310" rx="4" opacity=".96"/>
-            <rect x="1195" y="485" width="125" height="230" rx="4" opacity=".9"/>
-            <rect x="1080" y="605" width="245" height="140" rx="4" opacity=".72"/>
-          </g>
-
-          <g stroke="#6680af" stroke-width="2" fill="none" opacity=".7">
-            <path d="M286 188h108M286 216h86M286 244h116M286 305h118"/>
-            <path d="M550 350h155M550 382h110M550 415h170"/>
-            <rect x="590" y="446" width="48" height="28"/>
-            <rect x="650" y="446" width="48" height="28"/>
-            <path d="M614 474v34m60-34v34m-60 0h60"/>
-            <path d="M913 440h188M913 470h150"/>
-            <rect x="916" y="516" width="205" height="110"/>
-            <path d="M945 595l34-27 35 15 48-47"/>
-            <path d="M1112 650h170M1112 682h138"/>
-          </g>
-
-          <g fill="none" stroke="#456bc5" stroke-width="3.4">
-            <path d="M165 160 C255 170 270 440 505 435" marker-end="url(#arrowBlue)"/>
-            <path d="M700 285 C810 270 825 355 915 374" marker-end="url(#arrowBlue)"/>
-            <path d="M1040 420 C1125 432 1135 525 1195 555" marker-end="url(#arrowBlue)"/>
-            <path d="M1310 700 C1350 710 1360 690 1390 680" marker-end="url(#arrowBlue)"/>
-          </g>
-
-          <g fill="#456bc5">
-            <circle cx="165" cy="160" r="6"/>
-            <circle cx="505" cy="435" r="6"/>
-            <circle cx="700" cy="285" r="6"/>
-            <circle cx="915" cy="374" r="6"/>
-            <circle cx="1195" cy="555" r="6"/>
-          </g>
-
-          <g fill="none" stroke="#8ba0c4" stroke-width="1.4" opacity=".65">
-            <circle cx="305" cy="500" r="57"/>
-            <circle cx="365" cy="500" r="57"/>
-            <circle cx="335" cy="553" r="57"/>
-          </g>
-          <g fill="#7188b0" font-family="Avenir Next, Arial, sans-serif" font-size="10" letter-spacing="1.2" opacity=".75">
-            <text x="277" y="500">USER</text>
-            <text x="359" y="500">BUSINESS</text>
-            <text x="319" y="565">TECH</text>
-          </g>
-
-          <g fill="none" stroke="#7a90b6" stroke-width="2">
-            <path d="M740 240l48 26 48-26 48 26-48 26-48-26z"/>
-            <path d="M788 266v52m48-52v52m-96-26l48 26 48-26 48 26-48 26-48-26z" opacity=".75"/>
-          </g>
-
-          <g stroke="#b45b67" fill="none" stroke-width="2.2">
-            <path d="M1125 425 C1190 395 1235 396 1270 418" marker-end="url(#arrowRed)"/>
-            <path d="M1350 755 C1385 740 1410 720 1438 690" marker-end="url(#arrowRed)"/>
-          </g>
-          <g fill="#b45b67" font-family="Iowan Old Style, Baskerville, serif" font-style="italic">
-            <text x="1260" y="395" font-size="20">Key Decision.</text>
-            <text x="1430" y="675" font-size="20">Iterate.</text>
-          </g>
-
-          <g fill="#8194b5" font-family="Avenir Next, Arial, sans-serif" opacity=".55">
-            <text x="65" y="730" font-size="13" letter-spacing="5">FROM QUESTION</text>
-            <text x="65" y="754" font-size="13" letter-spacing="5">TO PRODUCT</text>
-            <text x="65" y="817" font-size="10" letter-spacing="2.4">UNDERSTAND REAL NEEDS. STRUCTURE COMPLEX PROBLEMS.</text>
-            <text x="65" y="838" font-size="10" letter-spacing="2.4">DESIGN FEASIBLE SOLUTIONS. ITERATE WITH EVIDENCE.</text>
-          </g>
-        </svg>
+      <div class="project-visual blueprint-visual">
+        <img
+          src="./assets/product-thinking-original.jpeg"
+          alt="Product anatomy blueprint showing user need, constraints, flow, solution and validation"
+        />
       </div>
     </article>
 
