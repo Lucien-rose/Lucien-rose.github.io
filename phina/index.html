@@ -55,7 +55,7 @@ body{font-family:"Avenir Next","SF Pro Display","Helvetica Neue","PingFang TC","
   filter:brightness(.9) contrast(1.1) saturate(.96);
   transition:opacity .22s ease;
 }
-.webgl-ready #irisFallback{opacity:0;}
+html.webgl-ready:not(.static-iris) #irisFallback{opacity:0;}
 @media(max-width:760px){
   #irisFallback{
     top:auto;
@@ -67,7 +67,6 @@ body{font-family:"Avenir Next","SF Pro Display","Helvetica Neue","PingFang TC","
     mix-blend-mode:multiply;
     filter:brightness(.78) contrast(1.3) saturate(.88);
   }
-  html.webgl-ready #irisFallback{opacity:.9;}
   html[data-theme="dark"] #irisFallback{
     opacity:.74;
     mix-blend-mode:normal;
