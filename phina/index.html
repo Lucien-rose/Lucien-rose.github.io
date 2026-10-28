@@ -4,6 +4,10 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Phina — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500&amp;text=%E6%8E%A2%E7%B4%A2%E7%9C%9F%E6%AD%A3%E7%9A%84%E9%9C%80%E6%B1%82%EF%BC%8C%E4%B8%BA%E5%85%B6%E7%BD%97%E7%BB%87%E6%88%90%E7%89%A9%E3%80%82&amp;display=swap">
 <script>
 document.documentElement.classList.add('motion-pending');
 try { if (sessionStorage.getItem('phina-entered')) document.documentElement.classList.add('return-visit'); } catch {}
@@ -457,6 +461,23 @@ html,body{overflow-x:clip}
  .work-sheet{display:none}
 }
 @keyframes reduced-fade{from{opacity:0}to{opacity:1}}
+</style>
+<style>
+.name,.project-title{
+  font-family:"Bodoni Moda","Didot","Bodoni MT","Times New Roman",serif;
+  font-optical-sizing:auto;
+  font-synthesis:none;
+}
+.name{font-size:clamp(66px,8.7vw,126px);font-weight:400;letter-spacing:-.025em;line-height:.98}
+.project-title{font-weight:500;letter-spacing:-.015em;line-height:1.12}
+.tag{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",serif;font-weight:500;font-size:clamp(15px,1.4vw,20px);letter-spacing:.055em;line-height:2;color:#52617a}
+.project-description{color:#52617a;letter-spacing:.015em;line-height:1.9}
+html[data-theme="dark"] .tag,html[data-theme="dark"] .project-description{color:#b2bfd4}
+@media(max-width:760px){
+  .name{font-size:clamp(50px,14.5vw,76px)}
+  .tag{font-size:15px;letter-spacing:.04em}
+  .project-description{font-size:16px;line-height:1.9}
+}
 </style>
 </head>
 <body>
