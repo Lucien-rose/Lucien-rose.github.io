@@ -4,6 +4,11 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Phina — Portfolio</title>
+<script>
+document.documentElement.classList.add('motion-pending');
+try { if (sessionStorage.getItem('phina-entered')) document.documentElement.classList.add('return-visit'); } catch {}
+window.setTimeout(() => document.documentElement.classList.remove('motion-pending'), 1800);
+</script>
 <style>
 :root {
   --bg:#f5f8fd;
@@ -389,8 +394,74 @@ html[data-theme="dark"] .blueprint-visual{
 }
 
 </style>
+<style>
+:root{--klein:#163acb;--scroll-bottom:calc(18px + env(safe-area-inset-bottom,0px));--entry:1400ms}
+html,body{overflow-x:clip}
+.return-visit{--entry:850ms}
+.entry-veil{position:fixed;inset:0;z-index:100;background:#f5f8fd;pointer-events:none;visibility:hidden}
+.entry-mark{position:absolute;left:50%;top:50%;width:2px;height:52px;background:var(--klein);transform:translate(-50%,-50%);border-radius:2px}
+.motion-pending .entry-veil{visibility:visible}
+.motion-pending .entry-mark{animation:entry-breathe .7s ease-in-out infinite alternate}
+.motion-pending:not(.entry-running) .site-surface{opacity:0}
+.entry-running .entry-veil{animation:veil-away var(--entry) linear both}
+.entry-running .entry-mark{animation:mark-drop var(--entry) cubic-bezier(.4,0,.2,1) both}
+.entry-running .site-surface{animation:surface-rise var(--entry) ease both}
+.entry-running #sceneRoot{mask-image:linear-gradient(to bottom,#000 40%,transparent 65%);mask-size:100% 250%;animation:water-reveal var(--entry) ease both}
+.scroll{position:fixed;bottom:var(--scroll-bottom);pointer-events:none;transition:opacity .3s ease;opacity:1}
+.scroll:after{background:linear-gradient(var(--klein),transparent);transform-origin:top;animation:scroll-breathe 2.5s ease-in-out infinite}
+.motion-pending .scroll,.scroll.at-end{opacity:0}
+.portfolio-area{position:relative;z-index:4;background:var(--paper)}
+.nav-sentinel{height:0}
+.work-nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 96%,transparent);padding:22px clamp(24px,7vw,104px);border-bottom:1px solid var(--paper-line)}
+.work-menu{display:flex;align-items:baseline;justify-content:space-between;gap:26px;max-width:1180px;margin:0 auto}
+.work-menu button,.work-current{position:relative;text-align:left;color:var(--paper-soft);font-size:11px;line-height:1.6;letter-spacing:.12em;padding:8px 0}
+.work-menu button span:first-child,.work-current span:first-child{font-size:9px;letter-spacing:.15em;margin-right:11px}
+.work-menu button[aria-selected="true"]{color:var(--ink)}
+.work-menu button[aria-selected="true"]:after{content:"";position:absolute;bottom:0;left:0;width:3px;height:3px;background:var(--klein);border-radius:50%}
+.work-menu button:focus-visible,.work-current:focus-visible{outline:1px solid var(--blue);outline-offset:5px}
+.work-current{display:none;width:100%;color:var(--ink)}
+.work-current span:first-child:not(:empty):after{content:" /";margin-left:5px}
+.work-stage{position:relative;perspective:1800px;perspective-origin:50% 12%;isolation:isolate}
+.work-page{position:relative;background:var(--paper);transform-origin:0 0;backface-visibility:hidden}
+.work-page .project-section[hidden]{display:none}
+.work-sheet{position:absolute;inset:0 0 auto;pointer-events:none;transform-origin:0 0;backface-visibility:hidden;z-index:2;background:var(--paper);overflow:hidden}
+.work-sheet:after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 40%,rgba(16,28,53,.075));opacity:0;animation:paper-shade 580ms ease both}
+.work-stage.is-turning{overflow:clip}
+@keyframes entry-breathe{from{opacity:.35;scale:1 .88}to{opacity:1;scale:1 1}}
+@keyframes veil-away{0%,48%{background:#f5f8fd}82%,100%{background:transparent}99%{visibility:visible}100%{visibility:hidden}}
+@keyframes mark-drop{0%,20%{width:2px;height:52px;opacity:.45;transform:translate(-50%,-50%)}12%{opacity:.9}30%{width:8px;height:8px;border-radius:50%;opacity:1;transform:translate(-50%,-50%)}65%{width:7px;height:9px;border-radius:50%;transform:translate(-50%,calc(50svh - var(--scroll-bottom) - 24px))}84%,96%{width:1px;height:38px;border-radius:0;opacity:1;transform:translate(-50%,calc(50svh - var(--scroll-bottom) - 38px))}100%{width:1px;height:38px;opacity:0;transform:translate(-50%,calc(50svh - var(--scroll-bottom) - 38px))}}
+@keyframes surface-rise{0%,48%{opacity:0;filter:blur(7px);transform:translateY(18px)}100%{opacity:1;filter:blur(0);transform:translateY(0)}}
+@keyframes water-reveal{0%,42%{mask-position:0 100%}100%{mask-position:0 0}}
+@keyframes scroll-breathe{0%,100%{transform:scaleY(.8);opacity:.5}50%{transform:scaleY(1);opacity:.95}}
+@keyframes paper-shade{0%,100%{opacity:0}45%{opacity:1}}
+@media(max-width:760px){
+ .scroll{bottom:var(--scroll-bottom)}
+ .work-nav{padding:14px 24px}
+ .work-menu{display:flex;flex-direction:column;align-items:stretch;gap:9px}
+ .work-menu button{font-size:11px;padding:9px 0}
+ .work-nav.is-compact .work-current{display:block}
+ .work-nav.is-compact .work-menu{display:none}
+ .work-nav.is-compact.is-open .work-menu{display:flex;padding:12px 0 8px}
+ .work-current:after{content:"";position:absolute;right:2px;top:13px;width:5px;height:5px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(45deg)}
+ .work-nav.is-open .work-current:after{transform:rotate(225deg)}
+}
+@media(prefers-reduced-motion:reduce){
+ html,body{scroll-behavior:auto}
+ .entry-veil{display:none!important}
+ .motion-pending .site-surface{opacity:1!important}
+ .entry-running .site-surface{animation:reduced-fade 180ms ease both;filter:none;transform:none}
+ .entry-running #sceneRoot{animation:none;mask-image:none}
+ .scroll:after{animation:none;transform:none}
+ .scroll{transition:opacity .15s ease}
+ .project-visual img,.contact-corner a{transition:none!important;transform:none!important}
+ .work-sheet{display:none}
+}
+@keyframes reduced-fade{from{opacity:0}to{opacity:1}}
+</style>
 </head>
 <body>
+<div class="entry-veil" aria-hidden="true"><div class="entry-mark"></div></div>
+<div class="site-surface">
 <section class="first-screen" id="top">
 <div id="sceneRoot"><img id="irisFallback" src="./assets/iris.png" alt="" aria-hidden="true"><canvas id="irisCanvas"></canvas><canvas id="sourceCanvas"></canvas></div>
 <header class="topbar">
@@ -406,9 +477,20 @@ html[data-theme="dark"] .blueprint-visual{
     <p class="tag" id="tag">探索真正的需求，为其罗织成物。</p>
   </section>
 </main>
-<div class="scroll">SCROLL</div>
 </section>
 
+<div class="portfolio-area">
+<div class="nav-sentinel"></div>
+<nav class="work-nav" aria-label="Portfolio">
+  <button class="work-current" aria-expanded="false" aria-controls="workMenu"><span></span><span>ALL</span></button>
+  <div class="work-menu" id="workMenu" role="tablist" aria-label="Portfolio">
+    <button role="tab" aria-selected="true" aria-controls="workPage" data-view="all">ALL</button>
+    <button role="tab" aria-selected="false" aria-controls="workPage" data-view="work"><span>01</span><span>PRODUCT &amp; SYSTEM</span></button>
+    <button role="tab" aria-selected="false" aria-controls="workPage" data-view="writing"><span>02</span><span>WRITING &amp; EVALUATION</span></button>
+    <button role="tab" aria-selected="false" aria-controls="workPage" data-view="product-thinking"><span>03</span><span>PRODUCT THINKING</span></button>
+  </div>
+</nav>
+<div class="work-stage"><div class="work-page" id="workPage" role="tabpanel">
 <section class="project-section" id="work">
   <div class="project-shell">
     <div class="project-eyebrow"><span>01 / PRODUCT &amp; SYSTEM</span></div>
@@ -512,6 +594,7 @@ html[data-theme="dark"] .blueprint-visual{
   </div>
 </section>
 
+</div></div></div>
 <footer class="closing compact-closing">
   <div class="contact-corner">
     <a href="https://github.com/Lucien-rose" target="_blank" rel="noreferrer">
@@ -529,6 +612,109 @@ html[data-theme="dark"] .blueprint-visual{
     <span>© 2026</span>
   </div>
 </footer>
+</div>
+<div class="scroll" aria-hidden="true">SCROLL</div>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const ready = () => {
+    if (root.classList.contains('entry-running')) return;
+    root.classList.add('entry-running');
+    const duration = reduced.matches ? 180 : root.classList.contains('return-visit') ? 850 : 1400;
+    setTimeout(() => {
+      root.classList.remove('motion-pending','entry-running');
+      try { sessionStorage.setItem('phina-entered','1'); } catch {}
+    }, duration);
+  };
+  const image = document.getElementById('irisFallback');
+  Promise.race([image.decode().catch(() => {}), new Promise(resolve => setTimeout(resolve, 80))])
+    .then(() => requestAnimationFrame(ready));
+  const cue = document.querySelector('.scroll');
+  const nav = document.querySelector('.work-nav');
+  const sentinel = document.querySelector('.nav-sentinel');
+  const current = document.querySelector('.work-current');
+  const buttons = [...document.querySelectorAll('[data-view]')];
+  const page = document.querySelector('.work-page');
+  const stage = document.querySelector('.work-stage');
+  const sections = [...page.querySelectorAll('.project-section')];
+  let selected = 0, used = false, ticking = false, animations = [], sheet = null, turn = 0;
+  function updateScroll() {
+    const viewport = window.visualViewport;
+    const bottom = viewport ? viewport.offsetTop + viewport.height : innerHeight;
+    cue.classList.toggle('at-end', document.documentElement.scrollHeight - scrollY - bottom < 130);
+    nav.classList.toggle('is-compact', used && sentinel.getBoundingClientRect().top <= 0);
+    ticking = false;
+  }
+  function scheduleScroll() { if (!ticking) { ticking = true; requestAnimationFrame(updateScroll); } }
+  addEventListener('scroll', scheduleScroll, {passive:true});
+  addEventListener('resize', scheduleScroll, {passive:true});
+  visualViewport?.addEventListener('resize', scheduleScroll, {passive:true});
+  new ResizeObserver(scheduleScroll).observe(document.body);
+  current.addEventListener('click', () => {
+    const open = nav.classList.toggle('is-open');
+    current.setAttribute('aria-expanded', String(open));
+  });
+  nav.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { nav.classList.remove('is-open'); current.setAttribute('aria-expanded','false'); current.focus(); }
+    const index = buttons.indexOf(document.activeElement);
+    if (index < 0) return;
+    let next = index;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % buttons.length;
+    else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (index + buttons.length - 1) % buttons.length;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = buttons.length - 1;
+    else return;
+    event.preventDefault(); buttons[next].focus();
+  });
+  function select(index) {
+    if (index === selected) { used = true; nav.classList.remove('is-open'); current.setAttribute('aria-expanded','false'); updateScroll(); return; }
+    const token = ++turn;
+    animations.forEach(animation => animation.cancel()); animations = [];
+    sheet?.remove(); sheet = null;
+    const direction = index > selected ? 1 : -1;
+    const oldHeight = page.offsetHeight;
+    if (!reduced.matches) {
+      sheet = page.cloneNode(true);
+      sheet.removeAttribute('id'); sheet.removeAttribute('role');
+      sheet.className = 'work-sheet'; sheet.setAttribute('aria-hidden','true'); sheet.inert = true;
+      sheet.querySelectorAll('[id]').forEach(node => node.removeAttribute('id'));
+      sheet.style.height = oldHeight + 'px'; stage.append(sheet);
+    }
+    selected = index; used = true;
+    sections.forEach(section => { section.hidden = index !== 0 && section.id !== buttons[index].dataset.view; });
+    buttons.forEach((button,i) => { button.setAttribute('aria-selected',String(i === index)); button.tabIndex = i === index ? 0 : -1; });
+    current.innerHTML = index ? buttons[index].innerHTML : '<span></span><span>ALL</span>';
+    current.setAttribute('aria-expanded','false'); nav.classList.remove('is-open');
+    const anchor = sentinel.getBoundingClientRect().top + scrollY;
+    if (scrollY > anchor) window.scrollTo({top:anchor,behavior:'instant'});
+    updateScroll();
+    if (reduced.matches) { stage.classList.remove('is-turning'); return; }
+    const newHeight = page.offsetHeight;
+    stage.classList.add('is-turning');
+    const timing = {duration:580,easing:'cubic-bezier(.22,.65,.25,1)',fill:'both'};
+    animations = [
+      sheet.animate([
+        {transform:'rotateY(0deg) rotateZ(0deg) translate3d(0,0,0)',opacity:1,boxShadow:'0 0 0 rgba(16,28,53,0)'},
+        {offset:.52,transform:'rotateY(' + (-12*direction) + 'deg) rotateZ(' + (-.5*direction) + 'deg) translate3d(' + (-15*direction) + 'px,-7px,20px)',opacity:.8,boxShadow:'18px 12px 38px rgba(16,28,53,.09)'},
+        {transform:'rotateY(' + (-15*direction) + 'deg) translate3d(' + (-30*direction) + 'px,-10px,25px)',opacity:0,boxShadow:'24px 16px 46px rgba(16,28,53,0)'}
+      ],timing),
+      page.animate([{transform:'rotateY('+(8*direction)+'deg) translate3d('+(12*direction)+'px,5px,-12px)',opacity:.25},{transform:'rotateY(0deg) translate3d(0,0,0)',opacity:1}],timing),
+      stage.animate([{height:oldHeight+'px'},{height:newHeight+'px'}],timing)
+    ];
+    Promise.all(animations.map(animation => animation.finished.catch(() => {}))).then(() => {
+      if (token !== turn) return;
+      sheet?.remove(); sheet = null; animations.forEach(animation => animation.cancel()); animations = [];
+      stage.classList.remove('is-turning'); scheduleScroll();
+    });
+  }
+  buttons.forEach((button,index) => { button.tabIndex = index === 0 ? 0 : -1; button.addEventListener('click', () => select(index)); });
+  reduced.addEventListener('change', () => { if (reduced.matches) { animations.forEach(animation => animation.finish()); root.classList.remove('motion-pending','entry-running'); } });
+  addEventListener('pageshow', event => { if (event.persisted) root.classList.remove('motion-pending','entry-running'); });
+  updateScroll();
+})();
+</script>
 
 <script type="module">
 import { Renderer, Program, Texture, Mesh, Vec2, Flowmap, Triangle } from 'https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm';
@@ -732,6 +918,10 @@ function init() {
 
 let prev = 0;
 function update(t) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('static-iris');
+    return;
+  }
   requestAnimationFrame(update);
   const dt = Math.min(0.033, (t - prev) * 0.001 || 0.016);
   prev = t;
