@@ -289,6 +289,79 @@ html[data-theme="dark"] .project-visual{
   letter-spacing:.15em;
   text-transform:uppercase;
 }
+
+.portfolio-followup{
+  background:var(--paper);
+}
+.project-card-reverse{
+  grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);
+}
+.writing-title{
+  font-size:clamp(27px,2.75vw,43px);
+  line-height:1.08;
+}
+.editorial-visual{
+  aspect-ratio:16/9;
+  border:0;
+  box-shadow:none;
+  background:#f5f8fd;
+}
+.editorial-visual img{
+  object-fit:contain;
+}
+.blueprint-card{
+  padding:34px 0 38px;
+  border-top:1px solid var(--paper-line);
+  border-bottom:1px solid var(--paper-line);
+}
+.blueprint-heading{
+  display:grid;
+  grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:clamp(30px,5vw,78px);
+  align-items:start;
+}
+.blueprint-copy{
+  min-width:0;
+}
+.blueprint-copy .project-heading-row{
+  grid-template-columns:1fr auto;
+}
+.blueprint-copy .project-tags{
+  grid-column:1/-1;
+  grid-row:2;
+}
+.blueprint-note{
+  padding-top:7px;
+  color:var(--paper-soft);
+  font-size:10px;
+  line-height:1.8;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  text-align:right;
+}
+.blueprint-visual{
+  margin-top:34px;
+  aspect-ratio:16/9;
+  background:#f5f8fd;
+}
+.blueprint-visual img{
+  object-fit:cover;
+}
+.project-card-reverse .project-link{
+  margin-top:42px;
+}
+html[data-theme="dark"] .editorial-visual,
+html[data-theme="dark"] .blueprint-visual{
+  background:#f5f8fd;
+}
+@media(max-width:760px){
+  .project-card-reverse{grid-template-columns:1fr;}
+  .blueprint-heading{grid-template-columns:1fr;gap:18px;}
+  .blueprint-note{text-align:left;padding-top:0;}
+  .blueprint-visual{margin-top:28px;}
+  .project-card-reverse .project-link{margin-top:34px;}
+}
+
 @media(max-width:760px){
   .project-section{padding:90px 24px 86px;}
   .project-eyebrow{margin-bottom:22px;}
@@ -338,7 +411,7 @@ html[data-theme="dark"] .project-visual{
 
 <section class="project-section" id="work">
   <div class="project-shell">
-    <div class="project-eyebrow"><span>01 / ContextWeave</span></div>
+    <div class="project-eyebrow"><span>01 / PRODUCT &amp; SYSTEM</span></div>
 
     <article class="project-card">
       <div class="project-visual">
@@ -353,7 +426,7 @@ html[data-theme="dark"] .project-visual{
       <div class="project-copy">
         <div class="project-heading-row">
           <h2 class="project-title">ContextWeave</h2>
-          <div class="project-tags">AI Memory · Agent Infrastructure · Open Source</div>
+          <div class="project-tags">AI Product · Memory Infrastructure · Open Source</div>
           <div class="project-year">[2026—]</div>
         </div>
 
@@ -365,6 +438,74 @@ html[data-theme="dark"] .project-visual{
         <a class="project-link" href="https://github.com/Lucien-rose/contextweave" target="_blank" rel="noreferrer">
           <span>read me</span>
         </a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="project-section portfolio-followup" id="writing">
+  <div class="project-shell">
+    <div class="project-eyebrow"><span>02 / WRITING &amp; EVALUATION</span></div>
+
+    <article class="project-card project-card-reverse">
+      <div class="project-copy">
+        <div class="project-heading-row">
+          <h2 class="project-title writing-title">Text Creation<br>&amp; Character Evaluation</h2>
+          <div class="project-tags">Creative Writing · Character Consistency · AI Evaluation</div>
+          <div class="project-year">[2021—]</div>
+        </div>
+
+        <p class="project-description" id="writingDescription">
+          长期进行角色向文本创作，并将人物理解延伸至 AI 角色一致性评测。<br>
+          从场景、对白与叙事，到语言风格、情绪承接与人格漂移判断。
+        </p>
+
+        <a class="project-link" href="https://important-tire-245.notion.site/407361c064fc803db762cc88dde769b4?pvs=74" target="_blank" rel="noreferrer">
+          <span>view portfolio</span>
+        </a>
+      </div>
+
+      <div class="project-visual editorial-visual">
+        <img
+          src="./assets/writing-evaluation.webp"
+          alt="Crane illustration for writing and character evaluation portfolio"
+          onerror="this.style.display='none'"
+        />
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="project-section portfolio-followup" id="product-thinking">
+  <div class="project-shell">
+    <div class="project-eyebrow"><span>03 / PRODUCT THINKING</span></div>
+
+    <article class="blueprint-card">
+      <div class="blueprint-heading">
+        <div class="blueprint-copy">
+          <div class="project-heading-row">
+            <h2 class="project-title">Product Thinking</h2>
+            <div class="project-year">[2026—]</div>
+            <div class="project-tags">Product Strategy · User Flow · Validation</div>
+          </div>
+
+          <p class="project-description" id="productThinkingDescription">
+            从真实需求出发，把约束、信息架构、交互路径与验收方式拆成可执行的产品方案。
+          </p>
+        </div>
+
+        <div class="blueprint-note">
+          USER NEED → CONSTRAINT → FLOW<br>
+          SOLUTION → VALIDATION → ITERATION
+        </div>
+      </div>
+
+      <div class="project-visual blueprint-visual">
+        <img
+          src="./assets/product-thinking.webp"
+          alt="Product anatomy blueprint showing user need, constraints, flow, solution and validation"
+          onerror="this.style.display='none'"
+        />
       </div>
     </article>
 
@@ -412,6 +553,12 @@ document.getElementById('lang').onclick = () => {
   document.getElementById('projectDescription').innerHTML = lang === 'zh'
     ? '为长期对话构建的记忆基础设施。<br>让该被记住的留下，让记忆在该出现的时候回来。'
     : 'Long-term memory infrastructure for enduring conversations.<br>Keep what deserves to remain, and return it when it matters.';
+  document.getElementById('writingDescription').innerHTML = lang === 'zh'
+    ? '长期进行角色向文本创作，并将人物理解延伸至 AI 角色一致性评测。<br>从场景、对白与叙事，到语言风格、情绪承接与人格漂移判断。'
+    : 'Long-form character writing extended into AI character-consistency evaluation.<br>From scene, dialogue and narrative to voice, emotional continuity and persona drift.';
+  document.getElementById('productThinkingDescription').textContent = lang === 'zh'
+    ? '从真实需求出发，把约束、信息架构、交互路径与验收方式拆成可执行的产品方案。'
+    : 'Turn real user needs, constraints, information architecture, interaction flows and validation into executable product decisions.';
   document.getElementById('growing').textContent = lang === 'zh'
     ? '- 仍在生长 -'
     : '- Still growing -';
