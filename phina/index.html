@@ -136,7 +136,7 @@ button,a{border:0;background:none;color:var(--muted);font:inherit;text-decoratio
 }
 .project-card{
   display:grid;
-  grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:clamp(28px,4.2vw,64px);
   padding:34px 0 38px;
   border-top:1px solid var(--paper-line);
@@ -144,7 +144,9 @@ button,a{border:0;background:none;color:var(--muted);font:inherit;text-decoratio
 }
 .project-visual{
   position:relative;
-  aspect-ratio:2/1;
+  aspect-ratio:16/9;
+  align-self:start;
+  min-width:0;
   overflow:hidden;
   background:linear-gradient(135deg,#f7f9fc,#e9eef7);
   border:1px solid color-mix(in srgb,var(--paper-line) 78%,transparent);
@@ -158,7 +160,7 @@ html[data-theme="dark"] .project-visual{
 .project-visual img{
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;
   display:block;
   transition:transform .9s cubic-bezier(.18,.8,.2,1),filter .9s ease;
 }
@@ -187,12 +189,15 @@ html[data-theme="dark"] .project-visual{
 }
 .project-heading-row{
   display:grid;
-  grid-template-columns:auto 1fr auto;
-  gap:20px;
-  align-items:baseline;
-  margin-bottom:34px;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:14px 20px;
+  align-items:start;
+  margin-bottom:28px;
 }
 .project-title{
+  grid-column:1;
+  grid-row:1;
+  min-width:0;
   margin:0;
   font-family:"Iowan Old Style","Baskerville","Times New Roman","Noto Serif SC",serif;
   font-size:clamp(28px,3.2vw,48px);
@@ -200,12 +205,17 @@ html[data-theme="dark"] .project-visual{
   letter-spacing:-.025em;
 }
 .project-tags{
+  grid-column:1/-1;
+  grid-row:2;
   color:var(--paper-soft);
   font-size:12px;
   letter-spacing:.075em;
   line-height:1.7;
 }
 .project-year{
+  grid-column:2;
+  grid-row:1;
+  padding-top:.65em;
   color:var(--paper-soft);
   font-size:12px;
   letter-spacing:.08em;
@@ -302,80 +312,29 @@ html[data-theme="dark"] .project-visual{
 .portfolio-followup{
   background:var(--paper);
 }
-.project-card-reverse{
-  grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);
-}
 .writing-title{
   font-size:clamp(27px,2.75vw,43px);
   line-height:1.08;
 }
-.editorial-visual{
-  aspect-ratio:16/9;
-  border:0;
-  box-shadow:none;
-  background:#f5f8fd;
-}
-.editorial-visual img{
-  object-fit:contain;
-}
-.blueprint-card{
-  padding:34px 0 38px;
-  border-top:1px solid var(--paper-line);
-  border-bottom:1px solid var(--paper-line);
-}
-.blueprint-heading{
-  display:grid;
-  grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
-  gap:clamp(30px,5vw,78px);
-  align-items:start;
-}
-.blueprint-copy{
-  min-width:0;
-}
-.blueprint-copy .project-heading-row{
-  grid-template-columns:1fr auto;
-}
-.blueprint-copy .project-tags{
-  grid-column:1/-1;
-  grid-row:2;
-}
 .blueprint-note{
-  padding-top:7px;
+  margin-top:22px;
   color:var(--paper-soft);
   font-size:10px;
   line-height:1.8;
   letter-spacing:.16em;
   text-transform:uppercase;
-  text-align:right;
-}
-.blueprint-visual{
-  margin-top:34px;
-  aspect-ratio:16/9;
-  background:#f5f8fd;
-}
-.blueprint-visual img{
-  object-fit:contain;
-}
-.project-card-reverse .project-link{
-  margin-top:42px;
+  text-align:left;
 }
 html[data-theme="dark"] .editorial-visual,
 html[data-theme="dark"] .blueprint-visual{
   background:#f5f8fd;
 }
 @media(max-width:760px){
-  .project-card-reverse{grid-template-columns:1fr;}
-  .blueprint-heading{grid-template-columns:1fr;gap:18px;}
-  .blueprint-note{text-align:left;padding-top:0;}
-  .blueprint-visual{margin-top:28px;}
-  .project-card-reverse .project-link{margin-top:34px;}
-}
-
-@media(max-width:760px){
   .project-section{padding:90px 24px 86px;}
   .project-eyebrow{margin-bottom:22px;}
   .project-card{grid-template-columns:1fr;gap:32px;padding:26px 0 36px;}
-  .project-heading-row{grid-template-columns:1fr auto;gap:8px 16px;margin-bottom:22px;}
+  .project-card-reverse .project-visual{grid-row:1;}
+  .project-heading-row{gap:8px 16px;margin-bottom:22px;}
   .project-tags{grid-column:1/-1;grid-row:2;}
   .project-description{font-size:16px;line-height:1.82;}
   .project-link{padding-top:34px;}
@@ -584,9 +543,15 @@ html[data-theme="dark"] .tag,html[data-theme="dark"] .project-description{color:
   <div class="project-shell">
     <div class="project-eyebrow"><span>03 / PRODUCT THINKING</span></div>
 
-    <article class="blueprint-card">
-      <div class="blueprint-heading">
-        <div class="blueprint-copy">
+    <article class="project-card">
+      <div class="project-visual blueprint-visual">
+        <img
+          src="./assets/product-thinking-original.jpeg"
+          alt="Product anatomy blueprint showing user need, constraints, flow, solution and validation"
+        />
+      </div>
+
+      <div class="project-copy">
           <div class="project-heading-row">
             <h2 class="project-title">Product Thinking</h2>
             <div class="project-year">[2026—]</div>
@@ -600,19 +565,10 @@ html[data-theme="dark"] .tag,html[data-theme="dark"] .project-description{color:
           <a class="project-link" href="https://important-tire-245.notion.site/ContextWeave-407361c064fc8194a90ddd660f0a6dd1?source=copy_link" target="_blank" rel="noreferrer">
             <span>view designs</span>
           </a>
-        </div>
-
         <div class="blueprint-note">
           USER NEED → CONSTRAINT → FLOW<br>
           SOLUTION → VALIDATION → ITERATION
         </div>
-      </div>
-
-      <div class="project-visual blueprint-visual">
-        <img
-          src="./assets/product-thinking-original.jpeg"
-          alt="Product anatomy blueprint showing user need, constraints, flow, solution and validation"
-        />
       </div>
     </article>
 
