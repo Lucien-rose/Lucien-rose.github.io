@@ -52,7 +52,7 @@ body{font-family:"Avenir Next","SF Pro Display","Helvetica Neue","PingFang TC","
   pointer-events:none;
   opacity:1;
   object-fit:contain;
-  filter:brightness(.9) contrast(1.1) saturate(.96);
+  filter:brightness(.9) contrast(1.1) saturate(.96) var(--iris-ripple,blur(0px));
   transition:opacity .22s ease;
 }
 html.webgl-ready:not(.static-iris) #irisFallback{opacity:0;}
@@ -65,17 +65,18 @@ html.webgl-ready:not(.static-iris) #irisFallback{opacity:0;}
     max-width:none;
     opacity:.9;
     mix-blend-mode:multiply;
-    filter:brightness(.78) contrast(1.3) saturate(.88);
+    filter:brightness(.78) contrast(1.3) saturate(.88) var(--iris-ripple,blur(0px));
   }
   html[data-theme="dark"] #irisFallback{
     opacity:.74;
     mix-blend-mode:normal;
-    filter:brightness(.84) contrast(1.18) saturate(.9);
+    filter:brightness(.84) contrast(1.18) saturate(.9) var(--iris-ripple,blur(0px));
   }
 }
 #irisCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1;pointer-events:none;}
 html.static-iris #irisCanvas{display:none !important;}
 html.static-iris #irisFallback{opacity:.9;}
+html.ripple-iris{--iris-ripple:url(#irisRipple);}
 #sourceCanvas{display:none;}
 .topbar{position:absolute;inset:0 0 auto 0;z-index:12;display:flex;justify-content:space-between;align-items:center;padding:28px clamp(22px,5vw,72px);}
 .left{display:flex;gap:18px;align-items:center}
@@ -480,6 +481,7 @@ html[data-theme="dark"] .tag,html[data-theme="dark"] .project-description{color:
 </style>
 </head>
 <body>
+<svg width="0" height="0" aria-hidden="true" style="position:absolute;pointer-events:none"><defs><filter id="irisRipple" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".018 .028" numOctaves="1" seed="7" result="noise"/><feOffset id="irisRippleOffset" in="noise" result="movingNoise"/><feDisplacementMap id="irisRippleScale" in="SourceGraphic" in2="movingNoise" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg>
 <div class="entry-veil" aria-hidden="true"><div class="entry-mark"></div></div>
 <div class="site-surface">
 <section class="first-screen" id="top">
@@ -749,7 +751,6 @@ const sourceCanvas = document.getElementById('sourceCanvas');
 const sctx = sourceCanvas.getContext('2d');
 const iris = document.getElementById('irisFallback');
 const isMobile = window.matchMedia('(max-width: 760px), (pointer: coarse)').matches;
-const useStaticIris = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const renderDpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.35 : 1.8);
 let lang = 'zh';
 
@@ -848,6 +849,10 @@ let frameId = 0;
 let contextLost = false;
 let stableSize = { width: 0, height: 0 };
 const pointer = { x: 0, y: 0, px: 0, py: 0, active: false };
+pointer.impulse = 0;
+let rippleFrameId = 0, rippleStrength = 0, rippleTime = 0;
+const rippleScale = document.getElementById('irisRippleScale');
+const rippleOffset = document.getElementById('irisRippleOffset');
 const autop = Array.from({length: 10}, (_, i) => spawnEmitter(i));
 
 function spawnEmitter(seed) {
@@ -897,29 +902,77 @@ function resize(force = false) {
   return redrawSource();
 }
 
-function updatePointer(x, y) {
-  const rect = canvas.getBoundingClientRect();
+function updatePointer(x, y, tap = false) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const rect = sceneRoot.getBoundingClientRect();
+  if (!rect.width || !rect.height || x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+    pointer.active = false;
+    return;
+  }
   const nx = (x - rect.left) / rect.width;
   const ny = 1.0 - (y - rect.top) / rect.height;
+  const distance = pointer.active ? Math.hypot(nx - pointer.x, ny - pointer.y) : 0;
+  if (!pointer.active) { pointer.px = nx; pointer.py = ny; }
   pointer.active = true;
   pointer.x = Math.max(0, Math.min(1, nx));
   pointer.y = Math.max(0, Math.min(1, ny));
+  if (tap) pointer.impulse = .28;
+  if (document.documentElement.classList.contains('static-iris')) {
+    rippleStrength = Math.min(1, Math.max(rippleStrength, tap ? 1 : distance * 28));
+    if (rippleStrength > .005 && !rippleFrameId) rippleFrameId = requestAnimationFrame(updateRipple);
+  }
 }
-if (!useStaticIris) {
-  window.addEventListener('mousemove', (e) => updatePointer(e.clientX, e.clientY));
-  window.addEventListener('mouseleave', () => pointer.active = false);
-  let viewportWidth = window.innerWidth;
-  window.addEventListener('resize', () => {
-    const nextWidth = window.innerWidth;
-    if (Math.abs(nextWidth - viewportWidth) < 2) return;
-    viewportWidth = nextWidth;
-    clearTimeout(window.__rz);
-    window.__rz = setTimeout(() => resize(true), 120);
-  });
+
+function stopRipple() {
+  cancelAnimationFrame(rippleFrameId);
+  rippleFrameId = 0; rippleStrength = 0; rippleTime = 0;
+  rippleScale.setAttribute('scale','0');
+  document.documentElement.classList.remove('ripple-iris');
 }
+
+function updateRipple(t) {
+  rippleFrameId = 0;
+  if (document.hidden || !document.documentElement.classList.contains('static-iris') || window.matchMedia('(prefers-reduced-motion: reduce)').matches) { stopRipple(); return; }
+  const dt = Math.min(.04, (t - rippleTime) / 1000 || .016);
+  rippleTime = t;
+  document.documentElement.classList.add('ripple-iris');
+  rippleScale.setAttribute('scale',String(rippleStrength * 9));
+  rippleOffset.setAttribute('dx',String(Math.sin(t * .0018) * 7 + pointer.x * 12));
+  rippleOffset.setAttribute('dy',String(Math.cos(t * .0015) * 7 + pointer.y * 12));
+  rippleStrength *= Math.exp(-dt * 4.5);
+  if (rippleStrength > .005) rippleFrameId = requestAnimationFrame(updateRipple);
+  else stopRipple();
+}
+
+window.addEventListener('pointermove', e => updatePointer(e.clientX,e.clientY), {passive:true});
+window.addEventListener('mousemove', e => updatePointer(e.clientX,e.clientY), {passive:true});
+let lastPointerDown = -Infinity;
+window.addEventListener('pointerdown', e => {
+  if (e.target.closest?.('button,a,input,textarea,select')) return;
+  lastPointerDown = e.timeStamp;
+  if (document.documentElement.classList.contains('static-iris')) resumeIris();
+  updatePointer(e.clientX,e.clientY,true);
+}, {passive:true});
+window.addEventListener('click', e => {
+  if (e.timeStamp - lastPointerDown < 700 || e.target.closest?.('button,a,input,textarea,select')) return;
+  if (document.documentElement.classList.contains('static-iris')) resumeIris();
+  updatePointer(e.clientX,e.clientY,true);
+}, {passive:true});
+window.addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') pointer.active = false; }, {passive:true});
+window.addEventListener('pointercancel', () => { pointer.active = false; pointer.impulse = 0; }, {passive:true});
+document.documentElement.addEventListener('pointerleave', () => pointer.active = false);
+let viewportWidth = window.innerWidth;
+window.addEventListener('resize', () => {
+  const nextWidth = window.innerWidth;
+  if (Math.abs(nextWidth - viewportWidth) < 2) return;
+  viewportWidth = nextWidth;
+  clearTimeout(window.__rz);
+  window.__rz = setTimeout(() => resumeIris(), 120);
+});
 
 function init() {
   stopIris();
+  document.documentElement.classList.remove('static-iris');
   renderer = new Renderer({ canvas, alpha: true, dpr: renderDpr });
   gl = renderer.gl;
   gl.clearColor(0, 0, 0, 0);
@@ -948,6 +1001,9 @@ function init() {
 function stopIris() {
   cancelAnimationFrame(frameId);
   frameId = 0;
+  pointer.active = false;
+  pointer.impulse = 0;
+  stopRipple();
   document.documentElement.classList.remove('webgl-ready');
   document.documentElement.classList.add('static-iris');
 }
@@ -1009,14 +1065,15 @@ function update(t) {
     flowmap.update();
   }
 
-  if (pointer.active) {
+  if (pointer.active || pointer.impulse > .002) {
     const dx = (pointer.x - pointer.px);
     const dy = (pointer.y - pointer.py);
     flowmap.mouse.set(pointer.x, pointer.y);
-    flowmap.velocity.set(dx * 6.5, dy * 6.5);
+    flowmap.velocity.set(dx * 6.5 + pointer.impulse * .45, dy * 6.5 - pointer.impulse);
     flowmap.update();
     pointer.px += (pointer.x - pointer.px) * 0.45;
     pointer.py += (pointer.y - pointer.py) * 0.45;
+    pointer.impulse *= Math.exp(-dt * 5);
   } else {
     pointer.px += (0.5 - pointer.px) * 0.02;
     pointer.py += (0.5 - pointer.py) * 0.02;
@@ -1030,6 +1087,7 @@ function update(t) {
   renderer.render({ scene: mesh });
   if (gl.isContextLost()) { stopIris(); return; }
   document.documentElement.classList.remove('static-iris');
+  if (rippleFrameId) stopRipple();
   if (!document.documentElement.classList.contains('webgl-ready')) {
     document.documentElement.classList.add('webgl-ready');
   }
